@@ -8,7 +8,7 @@ Content pack for Symantec Endpoint Protection Manager 14.2
 * Symantec Endpoint Protection pipeline
 * Symantec Endpoint Protection pipeline rules for:
   * SEPM Authentication Events
-  * SEPM Server logs
+  * SEPM Server Logs
   * SEP Application Control Logs
   * SEP Client Logs
   * SEP Device Manager Logs

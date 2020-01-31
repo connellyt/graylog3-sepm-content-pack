@@ -1,7 +1,7 @@
 {
   "v": "1",
   "id": "6c30659f-dd52-4ee2-97e5-09ffc7b56167",
-  "rev": 3,
+  "rev": 4,
   "name": "Symantec Endpoint Protection Manager 14",
   "summary": "Content pack for SEPM 14",
   "description": "This content pack contains a Stream,Pipeline, Pipeline rules, and Grok patterns for SEPM 14.2 and later.",
@@ -215,34 +215,6 @@
         "name": "pipeline_rule",
         "version": "1"
       },
-      "id": "c919976a-d79d-47f8-96cd-8e6710ea0daa",
-      "data": {
-        "title": {
-          "@type": "string",
-          "@value": "Symantec Client Logs"
-        },
-        "description": {
-          "@type": "string",
-          "@value": "Symantec Client Logs"
-        },
-        "source": {
-          "@type": "string",
-          "@value": "rule \"Symantec Client Logs\"\r\nwhen\r\n    to_bool(regex(\"\\\\,(Smc||REP||SYLINK||Symantec AntiVirus||Symantec Endpoint Protection||LiveUpdate Manager||Network Intrusion Protection Sys||CVE)\\\\,\",to_string($message.message)).matches)\r\nthen\r\n    set_fields(\r\n        grok(\r\n            \"%{HOSTNAME:event_server} SymantecServer: %{DATA:src_hostname},Category: %{NUMBER:UNWANTED},%{DATA:event_category},Event Description:%{GREEDYDATA:event_description},Event time: %{GREEDYDATA:end_time},Group Name: %{GREEDYDATA:symantec_ou}\",to_string($message.message),true\r\n        )\r\n    );\r\nend"
-        }
-      },
-      "constraints": [
-        {
-          "type": "server-version",
-          "version": ">=3.1.4+1149fe1"
-        }
-      ]
-    },
-    {
-      "v": "1",
-      "type": {
-        "name": "pipeline_rule",
-        "version": "1"
-      },
       "id": "fe3d4c85-3e4a-4e8d-9fca-e548e00a8e2e",
       "data": {
         "title": {
@@ -340,6 +312,34 @@
         "source": {
           "@type": "string",
           "@value": "rule \"Symantec Application Control Logs 2\"\r\nwhen\r\n    to_bool(regex(\"Device ID:\",to_string($message.message)).matches)\r\nthen\r\n    set_fields(\r\n        grok(\r\n            \"%{HOSTNAME:event_server} SymantecServer: %{HOSTNAME:local_hostname},%{IP:local_addr},%{WORD:action},(%{GREEDYDATA:event_description})?( )?- Caller MD5=%{MD5hash:MD5_hash},%{GREEDYDATA:api_name},Begin:%{GREEDYDATA:start_time},End Time:%{GREEDYDATA:end_time},Rule:(%{GREEDYDATA:rule_name})?,%{INT:ParentProcessID},%{GREEDYDATA:ParentProcess},%{INT:UNWANTED},(%{GREEDYDATA:module_name})?,%{GREEDYDATA:Process},User Name: (%{GREEDYDATA:user_origin})?,Domain Name: (%{GREEDYDATA:domain_origin})?,Action Type: (%{GREEDYDATA:action_type})?,File size \\\\(bytes\\\\): (%{INT:file_size})?,Device ID:( %{GREEDYDATA:device_id})?\",\r\n           to_string($message.message),\r\n           true\r\n        )\r\n    );\r\nend"
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.4+1149fe1"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "pipeline_rule",
+        "version": "1"
+      },
+      "id": "35e990d4-1136-48fe-a929-3fbafa743625",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Symantec Client Logs"
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Symantec Client Logs"
+        },
+        "source": {
+          "@type": "string",
+          "@value": "rule \"Symantec Client Logs\"\r\nwhen\r\n    to_bool(regex(\"\\\\,(Smc||REP||SYLINK||Symantec AntiVirus||Symantec Endpoint Protection||LiveUpdate Manager||Network Intrusion Protection Sys||Memory Exploit Mitigation System||CVE)\\\\,\",to_string($message.message)).matches)\r\nthen\r\n    set_fields(\r\n        grok(\r\n            \"%{HOSTNAME:event_server} SymantecServer: %{DATA:src_hostname},Category: %{NUMBER:UNWANTED},%{DATA:event_category},Event Description:%{GREEDYDATA:event_description},Event time: %{GREEDYDATA:end_time},Group Name: %{GREEDYDATA:symantec_ou}\",to_string($message.message),true\r\n        )\r\n    );\r\nend"
         }
       },
       "constraints": [

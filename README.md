@@ -15,6 +15,7 @@ Content pack for Symantec Endpoint Protection Manager 14.2
   * SEP IPS Logs
   * SEP Traffic Logs
   * SEP Scan Results
+  * SEP Virus Detection
 
 # Requirements
 Logging for related functionality must be configured on the Symantec Endpoint Protection Manager, and logs must be sent via syslog to Graylog.

@@ -1,7 +1,7 @@
 {
   "v": "1",
   "id": "6c30659f-dd52-4ee2-97e5-09ffc7b56167",
-  "rev": 6,
+  "rev": 7,
   "name": "Symantec Endpoint Protection Manager 14",
   "summary": "Content pack for SEPM 14",
   "description": "This content pack contains a Stream,Pipeline, Pipeline rules, and Grok patterns for SEPM 14.2 and later.",
@@ -368,6 +368,34 @@
         "source": {
           "@type": "string",
           "@value": "rule \"Symantec Security Logs\"\r\nwhen\r\n    to_bool(regex(\"CIDS Signature ID\",to_string($message.message)).matches)\r\nthen\r\n    set_fields(\r\n        grok(\r\n            \"%{HOSTNAME:event_server} SymantecServer: %{HOSTNAME:local_hostname},Event Description: %{GREEDYDATA:event_description},Local Host IP: %{IP:local_addr},Local Host MAC: %{SymantecMAC:local_mac},Remote Host Name: (%{GREEDYDATA:remote_hostname})?,Remote Host IP: %{IP:remote_addr},Remote Host MAC: %{SymantecMAC:remote_mac},%{WORD:direction},(%{DATA:protocol})?,(Intrusion ID: %{INT:int_id},)?Begin: %{GREEDYDATA:start_time},End Time: %{GREEDYDATA:end_time},Occurrences: %{INT:repeat_count},Application: (%{GREEDYDATA:application})?,Location: %{GREEDYDATA:event_location},User Name: %{GREEDYDATA:user_origin},Domain Name: %{GREEDYDATA:domain_origin},Local Port: %{NUMBER:local_port},Remote Port: %{NUMBER:remote_port},CIDS Signature ID: %{INT:sig_id1},CIDS Signature string: %{GREEDYDATA:sig_name},CIDS Signature SubID: %{INT:sig_id2},Intrusion URL: (%{GREEDYDATA:int_url})?,Intrusion Payload URL: (%{GREEDYDATA:int_payload_url})?,SHA-256: (%{SHA256hash: sha256_hash})?,MD-5:( %{MD5hash:md5_hash})?\",\r\n           to_string($message.message),\r\n           true\r\n        )\r\n    );\r\nend"
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.4+1149fe1"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "pipeline_rule",
+        "version": "1"
+      },
+      "id": "145bfbd4-b49e-4c62-b119-b13fa6a04561",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Symantec Virus Detection"
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Symantec detected a virus"
+        },
+        "source": {
+          "@type": "string",
+          "@value": "rule \"Symantec Virus Detection\"\r\nwhen\r\n    to_bool(regex(\"Virus found\",to_string($message.message)).matches)\r\nthen\r\n    set_fields(\r\n        grok(\r\n            \"%{HOSTNAME:event_server} SymantecServer: (%{HOSTNAME:local_hostname})?Virus found,IP Address: %{IP:src_addr},Computer name: %{GREEDYDATA:src_hostname},Source: %{GREEDYDATA:method},Risk name: %{GREEDYDATA:risk_name},Occurrences: %{INT:repeat_count},File path: (%{GREEDYDATA:file_path})?,Description: %{GREEDYDATA:event_description},Actual action: %{GREEDYDATA:action_type},Requested action: %{GREEDYDATA:requested_action},Secondary action: %{GREEDYDATA:secondary_action},Event time: %{GREEDYDATA:start_time},Event Insert Time: %{GREEDYDATA:event_insert_time},End Time: %{GREEDYDATA:end_time},Last update time: %{GREEDYDATA:last_update_time},Domain Name: %{GREEDYDATA:domain_origin},Group Name: %{GREEDYDATA:symantec_ou},Server Name: %{HOSTNAME:sepm_server},User Name: (%{GREEDYDATA:user_origin})?,Source Computer Name: (%{GREEDYDATA:source_computer_hostname})?,Source Computer IP: (%{GREEDYDATA:source_computer_ip})?,Disposition: (%{GREEDYDATA:dispositon})?,Download site: (%{GREEDYDATA:download_site})?,Web domain: (%{GREEDYDATA:web_domain})?,Downloaded by: (%{GREEDYDATA:downloaded_by})?,Prevalence: (%{GREEDYDATA:prevalence})?,Confidence: (%{GREEDYDATA:confidence})?,URL Tracking Status: (%{GREEDYDATA:url_tracking_status})?,First Seen: (%{GREEDYDATA:first_seen})?,Sensitivity: (%{GREEDYDATA:sensitivity})?,Permitted application reason: (%{GREEDYDATA:permitted_reason})?,Application hash: (%{SHA256hash:sha256_hash})?,Hash type: (%{GREEDYDATA:hash_type})?,Company name: (%{GREEDYDATA:company_name})?,Application name: (%{GREEDYDATA:application_name})?,Application version: (%{GREEDYDATA:application_version})?,Application type: (%{GREEDYDATA:application_type})?,File size \\\\(bytes\\\\): %{INT:file_size},Category set: %{GREEDYDATA:category_set},Category type: %{GREEDYDATA:category_type},Location: %{GREEDYDATA:symantec_org},Intensive Protection Level: %{INT:protection_level},Certificate issuer: (%{GREEDYDATA:cert_issuer})?,Certificate signer: (%{GREEDYDATA:cert_signer})?,Certificate thumbprint: (%{GREEDYDATA:cert_thumbprint})?,Signing timestamp: (%{GREEDYDATA:signing_timestamp})?,Certificate serial number:(%{GREEDYDATA:cert_serial_number})?\",\r\n           to_string($message.message),\r\n           true\r\n        )\r\n    );\r\nend"
         }
       },
       "constraints": [

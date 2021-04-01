@@ -1,5 +1,5 @@
 # SEPM 14 Content Pack
-Content pack for Symantec Endpoint Protection Manager 14.2
+Content pack for Symantec Endpoint Protection Manager 14.3 RU1 MP1
 
 # Includes
 * Grok patterns for SHA256 and MD5 hashes
